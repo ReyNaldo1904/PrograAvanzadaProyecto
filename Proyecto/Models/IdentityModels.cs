@@ -21,9 +21,10 @@ namespace Proyecto.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
-        {
-        }
+            : base("DefaultConnection", throwIfV1Schema: false){}
+
+        public DbSet<Producto> Productos { get; set; }
+        public DbSet<HistorialPedido> HistorialPedidos { get; set; }
 
         public static ApplicationDbContext Create()
         {
