@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Proyecto.Models.Producto>
+
+<h1>Catálogo de Productos</h1>
+
+<div class="catalogo">
+    @foreach (var producto in Model)
+    {
+        if (producto.Estado) // Solo mostrar productos activos
+        {
+            <div class="producto">
+                <h2>@producto.Nombre</h2>
+
+                <!-- Mostrar imágenes (se asume que las rutas están separadas por comas) -->
+                @if (!string.IsNullOrEmpty(producto.Imagenes))
+                {
+                    var imagenes = producto.Imagenes.Split(',');
+                    foreach (var imagen in imagenes)
+                    {
+                        <img src="@imagen.Trim()" alt="Imagen de @producto.Nombre" style="max-width: 150px; margin: 5px;" />
+                    }
+                }
+                else
+                {
+                    <p>No hay imágenes disponibles.</p>
+                }
+
+                <p>Precio: <strong>$@producto.Precio</strong></p>
+                <p>Inventario: @producto.Inventario</p>
+
+                
+            </div>
+        }
+    }
+</div>
+
+

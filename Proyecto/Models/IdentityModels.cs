@@ -30,6 +30,8 @@ namespace Proyecto.Models
 
         public DbSet<Pedido> Pedidos { get; set; }
 
+        public DbSet<Resenas> Resenas { get; set; }
+
 
 
         public static ApplicationDbContext Create()
