@@ -26,6 +26,12 @@ namespace Proyecto.Models
         public DbSet<Producto> Productos { get; set; }
         public DbSet<HistorialPedido> HistorialPedidos { get; set; }
 
+        public DbSet<Carrito> Carritos { get; set; }
+
+        public DbSet<Pedido> Pedidos { get; set; }
+
+
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
