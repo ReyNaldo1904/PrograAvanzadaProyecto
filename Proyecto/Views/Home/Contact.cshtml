@@ -3,11 +3,53 @@
 }
 <main aria-labelledby="title">
     <h2 id="title">@ViewBag.Title</h2>
-    <h4>Redes sociales</h4>
-    <a href="facebook.com"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Logo_de_Facebook.png/1023px-Logo_de_Facebook.png" alt="facebook icon" width="64" /></a>
-    <a href="instagram.com"><img src="https://cdn-icons-png.freepik.com/256/15707/15707869.png?semt=ais_hybrid" alt="instagram icon" width="64" /></a>
-    <a href="twitter.com"><img src="https://img.freepik.com/vector-gratis/nuevo-diseno-icono-x-logotipo-twitter-2023_1017-45418.jpg?w=360" alt="X icon" width="64" /></a>
 
+    <form class="form-horizontal form-control">
+        <div class="mb-3">
+            <label for="nombre">primer nombre</label>
+            <div class="col-md-10">
+                <input type="text" id="nombre" />
+            </div>
+            <label for="apellido">apellido</label>
+            <div class="col-md-10">
+                <input type="text" id="apellido" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="numeroTelefonico">numero telefonico</label>
+            <div class="col-md-10">
+                <input type="text" id="numeroTelefonico" />
+            </div>
+
+            <label for="cedula">numero de cedula</label>
+            <div class="col-md-10">
+                <input type="text" id="cedula" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="correo">Correo electronico</label>
+            <div class="col-md-10">
+                <input type="email" id="correo" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="mensaje">Mensaje</label>
+            <div class="col-md-10">
+                <input type="text" id="mensaje" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="col-md-10">
+               <button type="submit" class="btn btn-success"> enviar </button>
+            </div>
+        </div>
+
+
+    </form>
 
 
     <address>
@@ -15,4 +57,12 @@
         <strong>Atencion al cliente:</strong>   <a href="mailto:Support@example.com">Soporte@example.com</a><br />
         <strong>ventas:</strong> <a href="mailto:Marketing@example.com">Ventas@example.com</a>
     </address>
+
+    <section class="col">
+        <h4>Redes sociales</h4>
+        <a href="http://facebook.com"><img class="rounded" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Logo_de_Facebook.png/1023px-Logo_de_Facebook.png" alt="facebook icon" width="64" /></a>
+        <a href="http://instagram.com"><img class="rounded" src="https://cdn-icons-png.freepik.com/256/15707/15707869.png?semt=ais_hybrid" alt="instagram icon" width="64" /></a>
+        <a href="http://twitter.com"><img class="rounded" src="https://img.freepik.com/vector-gratis/nuevo-diseno-icono-x-logotipo-twitter-2023_1017-45418.jpg?w=360" alt="X icon" width="64" /></a>
+
+    </section>
 </main>
