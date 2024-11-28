@@ -14,6 +14,11 @@ namespace Proyecto.Models
         public bool Estado { get; set; } // Activo o inactivo
         public string Imagenes { get; set; } // Almacena rutas de imagenes separadas por comas
         public string Reviews { get; set; } // Texto plano o JSON con las reviews
+
+        public virtual ICollection<Resenas> Resenas { get; set; }
+
     }
+
+
 
 }

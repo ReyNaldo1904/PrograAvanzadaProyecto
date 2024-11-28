@@ -1,0 +1,47 @@
+﻿@model Proyecto.Models.Producto
+
+<h1>@Model.Nombre</h1>
+<p>Precio: $@Model.Precio</p>
+
+<h2>Reseñas:</h2>
+@if (Model.Resenas != null && Model.Resenas.Any())
+{
+    foreach (var resena in Model.Resenas.OrderByDescending(r => r.Fecha))
+    {
+        <div>
+            <p><strong>@resena.UsuarioId</strong> (@resena.Fecha.ToShortDateString()):</p>
+            <p>Calificación: @resena.Calificacion estrellas</p>
+            <p>@resena.Comentario</p>
+        </div>
+    }
+}
+else
+{
+    <p>No hay reseñas para este producto aún.</p>
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h3>Agregar una reseña:</h3>
+    <form action="/Resenas/Crear" method="post">
+        <input type="hidden" name="productoId" value="@Model.Id" />
+        <div>
+            <label for="calificacion">Calificación:</label>
+            <select name="calificacion" required>
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <option value="@i">@i estrellas</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label for="comentario">Comentario:</label>
+            <textarea name="comentario" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar Reseña</button>
+    </form>
+}
+else
+{
+    <p><a href="/Account/Login">Inicia sesión</a> para dejar una reseña.</p>
+}
