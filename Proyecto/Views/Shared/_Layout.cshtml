@@ -21,10 +21,12 @@
                 <ul class="navbar-nav flex-grow-1"
                     <li>@Html.ActionLink("Acerca de", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Carrito", "Index", "Carritoes", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Carrito", "Index", "Carrito", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Pedidos", "Index", "Pedido", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Productos", "Index", "Producto", new { area = "" }, new { @class = "nav-link" })</li>
               @if (User.Identity.IsAuthenticated)
                     {
+                        <li>@Html.ActionLink("Carrito", "Index", "Carrito", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Historial de Compras", "Index", "HistorialCompras")</li>
                     }
 

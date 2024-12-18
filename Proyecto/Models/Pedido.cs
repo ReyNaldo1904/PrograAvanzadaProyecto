@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Web;
-
+/*
+ * Codigo hecho por Luis
+ * 
+ * 
+ * */
 namespace Proyecto.Models
 {
     public class Pedido
@@ -13,12 +18,10 @@ namespace Proyecto.Models
         [Required]
         public int CarritoId { get; set; }
         public virtual Carrito Carrito { get; set; }
-        [Required]
-        public int ProductoId { get; set; }
-        [Required]
-        public virtual Producto Producto { get; set; }
-        [Required]
-        public int Cantidad { get; set; } 
+        //se pone la fecha actual del equipo 
+        public DateTime FechaPedido { get; set; } = DateTime.Now;
+
+        public decimal TotalPedido { get; set; }
 
     }
 }

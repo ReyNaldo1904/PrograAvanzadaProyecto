@@ -2,19 +2,28 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Web;
-
+/*
+ * Codigo hecho por Luis
+ * 
+ * 
+ * */
 namespace Proyecto.Models
 {
     public class Carrito
     {
         [Key]
-        public int Id { get; set; } // primary key
-
-        public DateTime FechaCreacion { get; set; } = DateTime.Now; // fecha de la creacion del carrito
+        public int CarritoId { get; set; }
         [Required]
-        public string IdUsuario { get; set; } //relacionar el usuario con el carrito
+        public int ProductoId { get; set; }
+        [Required]
+        public virtual Producto Producto { get; set; }
+        [Required]
+        [Range(1, int.MaxValue)]
+        public int Cantidad { get; set; } 
+        
+        public decimal Total { get; set; }
         public virtual ApplicationUser Usuario { get; set; }
+
     }
 }
