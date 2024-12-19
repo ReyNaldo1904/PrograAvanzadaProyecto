@@ -17,7 +17,10 @@ namespace Proyecto.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         private readonly IProductoService _productService;
-
+        public ProductoController()
+        {
+            _productService = new ProductoService();
+        }
        
 
         // GET: Producto

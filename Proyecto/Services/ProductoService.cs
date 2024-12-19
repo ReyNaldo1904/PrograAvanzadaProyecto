@@ -12,8 +12,8 @@ namespace Proyecto.Services
     public class ProductoService : IProductoService
     {
         private readonly ProductoRepository _repository;
-        public ProductoService(ProductoRepository productoRepository) { 
-            _repository = productoRepository;
+        public ProductoService() { 
+            _repository = new ProductoRepository();
         
         }
         public void CreateProducto(Producto producto)
