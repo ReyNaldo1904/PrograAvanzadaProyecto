@@ -1,10 +1,12 @@
-﻿@{
+﻿﻿@model IEnumerable<Proyecto.Models.Producto>
+
+@{
     ViewBag.Title = "Pagina principal";
 }
 
 <main>
-    <h1>Aqui deberian aparecer libros</h1>
 
-    <a href="/Catalogo/Index" class="btn btn-primary">Ver Catálogo</a>
+    <h1>Catálogo de Productos</h1>
+    @Html.Partial("_Productos", Model)
 
 </main>
