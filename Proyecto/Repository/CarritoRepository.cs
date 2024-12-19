@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Proyecto.Models;
 using System.Data.Entity;
+using System.CodeDom;
 
 namespace Proyecto.Repository
 {
@@ -14,12 +15,28 @@ namespace Proyecto.Repository
         public CarritoRepository() {
             _context = new ApplicationDbContext();
         }
+        /*
+        * Autor: Luis David Miranda
+        * Descripcion: añadir un carrito con un producto que el usuario eligio
+        * Valida que la cantidad en el carrito sea menor al inventario
+        * 
+        * */
         public void Add(Carrito carrito)
         {
-            _context.Carritos.Add(carrito);
-            _context.SaveChanges();
+            if(carrito.Cantidad <= carrito.Producto.Inventario)
+            {
+                _context.Carritos.Add(carrito);
+                _context.SaveChanges();
+            }
+           
+            
         }
-
+        /*
+        * Autor: Luis David Miranda
+        * Descripcion: elimina un carrito
+        * 
+        * 
+        * */
         public void Delete(int id)
         {
             Carrito carrito = _context.Carritos.Find(id);
@@ -27,6 +44,12 @@ namespace Proyecto.Repository
             _context.SaveChanges();
         }
 
+        /*
+        * Autor: Luis David Miranda
+        * Descripcion: elimina un carrito
+        * 
+        * 
+        * */
         public Carrito GetById(int? id)
         {
             if(id == null)
@@ -35,7 +58,12 @@ namespace Proyecto.Repository
             }
             return _context.Carritos.Find(id);
         }
-
+        /*
+        * Autor: Luis David Miranda
+        * Descripcion: devuelve un carrito por usuario
+        * 
+        * 
+        * */
         public Carrito GetByUser(string id)
         {
             return _context.Carritos.Find(id);
@@ -44,13 +72,18 @@ namespace Proyecto.Repository
         public IEnumerable<Carrito> GetCarrito()
         {
             var carritos = _context.Carritos.Include(p => p.Producto);
+            
             return carritos.ToList();
         }
 
         public void Update(Carrito carrito)
         {
-            _context.Entry(carrito).State = EntityState.Modified;
-            _context.SaveChanges();
+            if (carrito.Cantidad <= carrito.Producto.Inventario)
+            {
+                _context.Entry(carrito).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+               
         }
     }
 }

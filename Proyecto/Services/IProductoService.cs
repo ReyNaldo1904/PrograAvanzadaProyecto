@@ -10,6 +10,8 @@ namespace Proyecto.Services
     public interface IProductoService
     {
         IEnumerable<Producto> GetProductos();
+
+        IEnumerable<Producto> GetProductos(Boolean estado);
         Producto GetById(int? id);
         void CreateProducto(Producto producto);
         void UpdateProducto(Producto producto);

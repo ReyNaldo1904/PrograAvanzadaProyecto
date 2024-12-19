@@ -21,6 +21,12 @@ namespace Proyecto.Repository
         }
         public void Add(int productoId, int cantidad, string usuarioId)
         {
+            /*
+      * Autor: greg
+      * Descripcion:agrega un producto al historial de un usuario
+      * 
+      * 
+      * */
             var producto = _context.Productos.Find(productoId);
 
             if (producto != null || producto.Inventario > cantidad) {
@@ -43,6 +49,12 @@ namespace Proyecto.Repository
 
         public IEnumerable<HistorialPedido> GetHistorialPedido(string usuarioId)
         {
+            /*
+      * Autor: Luis David Miranda
+      * Descripcion:Muestra unicamente el historial de un usuario
+      * 
+      * 
+      * */
             string userId = usuarioId;
             var historial = _context.HistorialPedidos
                 .Include(h => h.Producto)

@@ -35,7 +35,13 @@ namespace Proyecto.Repository
 
         public IEnumerable<Pedido> GetByUser(string user)
         {
-           if(user == null) return null;
+            /*
+      * Autor: Luis David Miranda
+      * Descripcion:Muestra una lista de todos los pedidos de dado usuario
+      * 
+      * 
+      * */
+            if (user == null) return null;
            var Pedidos = _context.Pedidos.AsQueryable();
             Pedidos = Pedidos.Where(u => u.Carrito.Usuario.Id == user);
             return _context.Pedidos.ToList();

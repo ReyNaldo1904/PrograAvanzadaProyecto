@@ -25,7 +25,12 @@ namespace Proyecto.Controllers
         // GET: Pedido
         public ActionResult Index()
         {
-            
+            /*
+         * Autor: Luis David Miranda
+         * Descripcion: obtener todos los pedidos
+         * 
+         * 
+         * */
             return View(_pedidoService.GetPedidos());
         }
 
@@ -50,6 +55,12 @@ namespace Proyecto.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            /*
+         * Autor: Luis David Miranda
+         * Descripcion: se obtiene la lista de pedidos con un mismo idUsuario del carrito
+         * 
+         * 
+         * */
             IEnumerable<Pedido> pedido = _pedidoService.GetByUser(user);
             if (pedido == null)
             {

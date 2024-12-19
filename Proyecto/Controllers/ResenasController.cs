@@ -60,6 +60,25 @@ namespace Proyecto.Controllers
 
             }
         }
+        /*
+         * Autor: Luis David Miranda
+         * Descripcion: muestra todas las reseñas
+         * 
+         * 
+         * */
+        public ActionResult MostrarResenas()
+        {
+            try
+            {
+
+                return View(_resenasService.GetResenas());
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Catalogo");
+
+            }
+        }
 
     }
 }

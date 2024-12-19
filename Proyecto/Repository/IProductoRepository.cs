@@ -9,6 +9,7 @@ namespace Proyecto.Repository
     public interface IProductoRepository
     {
         IEnumerable<Producto> GetProductos();
+        IEnumerable<Producto> GetProductos(Boolean estado);
         Producto GetById(int? id);
         void Add(Producto product);
         void Update(Producto product);

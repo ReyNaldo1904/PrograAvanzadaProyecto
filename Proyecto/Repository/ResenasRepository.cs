@@ -5,7 +5,12 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using Proyecto.Models;
-
+/*
+      * Autor: greg
+      * 
+      * 
+      * 
+      * */
 namespace Proyecto.Repository
 {
     public class ResenasRepository : IResenasRepository
