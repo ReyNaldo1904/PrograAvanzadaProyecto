@@ -4,20 +4,22 @@ using System.Linq;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Proyecto.Models;
+using Proyecto.Services;
 
 public class HistorialComprasController : Controller
 {
     private ApplicationDbContext db = new ApplicationDbContext();
 
+    private readonly HistorialCompraService _historialCompraService;
+    public HistorialComprasController()
+    {
+        _historialCompraService = new HistorialCompraService();
+    }
     [Authorize] // Solo usuarios autenticados
     public ActionResult Index()
     {
         string userId = User.Identity.GetUserId();
-        var historial = db.HistorialPedidos
-            .Include(h => h.Producto)
-            .Where(h => h.UsuarioId == userId)
-            .OrderByDescending(h => h.Fecha)
-            .ToList();
+       var historial = _historialCompraService.GetHistorialPedido(userId);
         
         return View(historial);
     }
@@ -29,25 +31,8 @@ public class HistorialComprasController : Controller
     {
         try
         {
-            var producto = db.Productos.Find(productoId);
-            if (producto == null || producto.Inventario < cantidad)
-            {
-                return Json(new { success = false, message = "Producto no disponible" });
-            }
-
-            var pedido = new HistorialPedido
-            {
-                UsuarioId = User.Identity.GetUserId(),
-                ProductoId = productoId,
-                Cantidad = cantidad,
-                Fecha = DateTime.Now,
-                PrecioUnitario = producto.Precio
-            };
-
-            producto.Inventario -= cantidad;
-            
-            db.HistorialPedidos.Add(pedido);
-            db.SaveChanges();
+            string usuarioId = User.Identity.GetUserId();
+            _historialCompraService.Add(productoId, cantidad, usuarioId);
 
             return Json(new { success = true });
         }

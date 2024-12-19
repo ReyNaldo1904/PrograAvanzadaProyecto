@@ -7,10 +7,12 @@ using Proyecto.Models;
 
 namespace Proyecto.Repository
 {
-    internal interface ICarrito
+    internal interface ICarritoRepository
     {
-        IEnumerable<Carrito> GetCarrito(string id);
+        IEnumerable<Carrito> GetCarrito();
         Carrito GetByUser(string id);
+
+        Carrito GetById(int? id);
         void Add(Carrito carrito);
         void Update(Carrito carrito);
         void Delete(int id);

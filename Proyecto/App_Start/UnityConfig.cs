@@ -1,10 +1,16 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
+using Proyecto.Controllers;
+using Proyecto.Models;
 using Proyecto.Repository;
 using Proyecto.Services;
 using Unity;
 using Unity.AspNet.Mvc;
+using Unity.Injection;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Proyecto
 {
@@ -46,14 +52,32 @@ namespace Proyecto
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
+
+           
         }
 
         public static void RegisterComponents()
         {
             var container = new UnityContainer();
+            //intento de resolver el problema con identity y unity
+            container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();
+            container.RegisterType<ApplicationDbContext>();
+            container.RegisterType<UserManager<ApplicationUser>>();
+            container.RegisterType<AccountController>(new InjectionConstructor());
+            container.RegisterType<ManageController>(new InjectionConstructor());
+            //Inyección de dependencias para los controllers
             container.RegisterType<IProductoRepository, ProductoRepository>();
             container.RegisterType<IProductoService, ProductoService>();
+            container.RegisterType<ICarritoRepository, CarritoRepository>();
+            container.RegisterType<ICarritoService, CarritoService>();
+            container.RegisterType<IHistorialCompraService, HistorialCompraService>();
+            container.RegisterType<IHistorialComprasRepository, HistorialCompraRepository>();
 
+            container.RegisterType<IResenasRepository, ResenasRepository>();
+            container.RegisterType<IResenasService, ResenasService>();
+
+            container.RegisterType<IPedidoService, PedidoService>();
+            container.RegisterType<IPedidoRepository, PedidoRepository>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

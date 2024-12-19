@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Proyecto.Models;
+using Proyecto.Services;
 
 namespace Proyecto.Controllers
 {
@@ -14,11 +15,18 @@ namespace Proyecto.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        private readonly PedidoService _pedidoService;
+
+        public PedidoController()
+        {
+            _pedidoService = new PedidoService();
+        }
+
         // GET: Pedido
         public ActionResult Index()
         {
-            var pedidos = db.Pedidos.Include(p => p.Carrito);
-            return View(pedidos.ToList());
+            
+            return View(_pedidoService.GetPedidos());
         }
 
         // GET: Pedido/Details/5
@@ -28,7 +36,21 @@ namespace Proyecto.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Pedido pedido = db.Pedidos.Find(id);
+            Pedido pedido = _pedidoService.GetById(id);
+            if (pedido == null)
+            {
+                return HttpNotFound();
+            }
+            return View(pedido);
+        }
+        //Muestra una vista unicamente para un usuario especifico
+        public ActionResult DetailsForUser(string user)
+        {
+            if (user == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            IEnumerable<Pedido> pedido = _pedidoService.GetByUser(user);
             if (pedido == null)
             {
                 return HttpNotFound();
@@ -52,8 +74,7 @@ namespace Proyecto.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Pedidos.Add(pedido);
-                db.SaveChanges();
+                _pedidoService.Add(pedido);
                 return RedirectToAction("Index");
             }
 
@@ -68,7 +89,7 @@ namespace Proyecto.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Pedido pedido = db.Pedidos.Find(id);
+            Pedido pedido = _pedidoService.GetById(id);
             if (pedido == null)
             {
                 return HttpNotFound();
@@ -86,8 +107,7 @@ namespace Proyecto.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(pedido).State = EntityState.Modified;
-                db.SaveChanges();
+                _pedidoService.Update(pedido);
                 return RedirectToAction("Index");
             }
             ViewBag.CarritoId = new SelectList(db.Carritos, "CarritoId", "CarritoId", pedido.CarritoId);
@@ -101,7 +121,7 @@ namespace Proyecto.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Pedido pedido = db.Pedidos.Find(id);
+            Pedido pedido = _pedidoService.GetById(id);
             if (pedido == null)
             {
                 return HttpNotFound();
@@ -114,9 +134,7 @@ namespace Proyecto.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Pedido pedido = db.Pedidos.Find(id);
-            db.Pedidos.Remove(pedido);
-            db.SaveChanges();
+            _pedidoService.Delete(id);
             return RedirectToAction("Index");
         }
 

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Proyecto.Models;
+using Proyecto.Services;
 
 namespace Proyecto.Controllers
 {
@@ -9,9 +10,16 @@ namespace Proyecto.Controllers
     public class ResenasController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ResenasService _resenasService;
+
+        public ResenasController()
+        {
+            _resenasService = new ResenasService();
+        }
 
         // POST: Resenas/Create
-        [HttpPost]
+        /*[HttpPost]
+        
         public ActionResult Crear(int productoId, string comentario, int calificacion)
         {
             try
@@ -35,6 +43,23 @@ namespace Proyecto.Controllers
                 return RedirectToAction("Index", "Catalogo");
 
             }
+        }*/
+
+        public ActionResult Crear(int productoId, string comentario, int calificacion)
+        {
+            try
+            {
+                var UsuarioId = User.Identity.Name;
+                
+                _resenasService.Add(productoId, comentario, calificacion,UsuarioId);
+                return RedirectToAction("Details", "Catalogo", new { id = productoId });
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Catalogo");
+
+            }
         }
+
     }
 }

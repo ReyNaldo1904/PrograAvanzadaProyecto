@@ -28,9 +28,7 @@ namespace Proyecto.Services
 
         public Producto GetById(int? id)
         {
-            if (id == null) {
-                return null;
-            } 
+          
             return _repository.GetById(id);
         }
 

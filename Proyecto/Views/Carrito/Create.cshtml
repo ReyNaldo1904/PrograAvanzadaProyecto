@@ -1,15 +1,15 @@
 ﻿@model Proyecto.Models.Carrito
-
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Create";
 }
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Carrito</h4>
         <hr />
@@ -37,7 +37,7 @@
                 @Html.ValidationMessageFor(model => model.Total, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <input type="hidden" name="Usuario" id="Usuario" value="@User.Identity.GetUserName()"/>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />

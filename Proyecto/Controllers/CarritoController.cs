@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Proyecto.Models;
+using Proyecto.Services;
 
 namespace Proyecto.Controllers
 {
@@ -14,21 +15,29 @@ namespace Proyecto.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        private readonly CarritoService _carritoService;
+
+        public CarritoController()
+        {
+            _carritoService = new CarritoService();
+        }
+
         // GET: Carrito
+        
         public ActionResult Index()
         {
-            var carritos = db.Carritos.Include(c => c.Producto);
-            return View(carritos.ToList());
+            
+            return View(_carritoService.GetCarrito());
         }
 
         // GET: Carrito/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Carrito carrito = db.Carritos.Find(id);
+            Carrito carrito = _carritoService.GetByUser(id);
             if (carrito == null)
             {
                 return HttpNotFound();
@@ -52,8 +61,7 @@ namespace Proyecto.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Carritos.Add(carrito);
-                db.SaveChanges();
+                _carritoService.CreateCarrito(carrito);
                 return RedirectToAction("Index");
             }
 
@@ -68,7 +76,7 @@ namespace Proyecto.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Carrito carrito = db.Carritos.Find(id);
+            Carrito carrito = _carritoService.GetById(id);
             if (carrito == null)
             {
                 return HttpNotFound();
@@ -86,8 +94,7 @@ namespace Proyecto.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(carrito).State = EntityState.Modified;
-                db.SaveChanges();
+                _carritoService.UpdateCarrito(carrito);
                 return RedirectToAction("Index");
             }
             ViewBag.ProductoId = new SelectList(db.Productos, "Id", "Nombre", carrito.ProductoId);
@@ -101,7 +108,7 @@ namespace Proyecto.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Carrito carrito = db.Carritos.Find(id);
+            Carrito carrito = _carritoService.GetById(id);
             if (carrito == null)
             {
                 return HttpNotFound();
@@ -114,9 +121,7 @@ namespace Proyecto.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Carrito carrito = db.Carritos.Find(id);
-            db.Carritos.Remove(carrito);
-            db.SaveChanges();
+            _carritoService.DeleteCarrito(id);
             return RedirectToAction("Index");
         }
 

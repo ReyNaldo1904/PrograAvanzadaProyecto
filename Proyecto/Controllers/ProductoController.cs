@@ -16,14 +16,17 @@ namespace Proyecto.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        //Referirse a producto repository para la funcionalidad de producto service
         private readonly IProductoService _productService;
+        
         public ProductoController()
         {
             _productService = new ProductoService();
         }
-       
+
 
         // GET: Producto
+        [AllowAnonymous]
         public ActionResult Index()
         {
 
@@ -31,13 +34,15 @@ namespace Proyecto.Controllers
         }
 
         // GET: Producto/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Producto producto = db.Productos.Find(id);
+            //Verificamos que el producto existe
+            Producto producto = _productService.GetById(id);
             if (producto == null)
             {
                 return HttpNotFound();
@@ -46,6 +51,7 @@ namespace Proyecto.Controllers
         }
 
         // GET: Producto/Create
+        //[Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -60,8 +66,7 @@ namespace Proyecto.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Productos.Add(producto);
-                db.SaveChanges();
+                _productService.CreateProducto(producto);
                 return RedirectToAction("Index");
             }
 
@@ -69,13 +74,14 @@ namespace Proyecto.Controllers
         }
 
         // GET: Producto/Edit/5
+        //[Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Producto producto = db.Productos.Find(id);
+            Producto producto = _productService.GetById(id);
             if (producto == null)
             {
                 return HttpNotFound();
@@ -92,21 +98,21 @@ namespace Proyecto.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(producto).State = EntityState.Modified;
-                db.SaveChanges();
+                _productService.UpdateProducto(producto);
                 return RedirectToAction("Index");
             }
             return View(producto);
         }
 
         // GET: Producto/Delete/5
+        //[Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Producto producto = db.Productos.Find(id);
+            Producto producto = _productService.GetById(id);
             if (producto == null)
             {
                 return HttpNotFound();
@@ -119,9 +125,12 @@ namespace Proyecto.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Producto producto = db.Productos.Find(id);
-            db.Productos.Remove(producto);
-            db.SaveChanges();
+            Producto producto = _productService.GetById(id);
+            if (producto == null)
+            {
+                return HttpNotFound();
+            }
+            _productService.DeleteProducto(producto.Id);
             return RedirectToAction("Index");
         }
 
